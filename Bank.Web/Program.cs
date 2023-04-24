@@ -2,6 +2,7 @@ using Bank.Data.DbContexts;
 using Bank.Data.IRepository;
 using Bank.Data.Repository;
 using Bank.Service.Interfaces;
+using Bank.Service.Mappers;
 using Bank.Service.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +22,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 // add services to the conteiner
 builder.Services.AddScoped<IUserService, UserService>();
 
-// add 
+// add Automapper to the conteiner
+builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 
 var app = builder.Build();
