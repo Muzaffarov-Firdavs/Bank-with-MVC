@@ -6,11 +6,12 @@ namespace Bank.Data.DbContexts
 {
     public class AppDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+            : base(options)
         {
-            string path = "Server=(localdb)\\MSSQLLocalDB; Database=Bank.DataBas;Trusted_Connection = true;";
-            optionsBuilder.UseSqlServer(path);
+            Database.Migrate();
         }
+
 
         DbSet<User> Users { get; set; }
     }
