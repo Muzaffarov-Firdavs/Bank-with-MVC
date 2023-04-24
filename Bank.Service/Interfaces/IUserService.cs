@@ -12,6 +12,6 @@ namespace Bank.Service.Interfaces
         Task<bool> RemoveAsync(long id);
         Task<UserForResultDto> SelectAsync(long id);
         Task<List<UserForResultDto>> SelectAllAsync(
-            PaginationParams @params, Expression<Func<User, bool>> expression = null, string search = null);
+            PaginationParams @params, Expression<Func<User, bool>> expression = null);
     }
 }

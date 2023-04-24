@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Bank.Data.IRepository;
+using Bank.Data.Repository;
 using Bank.Domain.Configuration;
 using Bank.Domain.Entites;
 using Bank.Service.DTOs;
 using Bank.Service.Exceptions;
+using Bank.Service.Extensions;
 using Bank.Service.Interfaces;
 using System.Linq.Expressions;
 
@@ -31,12 +33,10 @@ namespace Bank.Service.Services
             var result = await this.repository.InsertAsync(mappedUser);
             await this.repository.SaveChangesAsync();
             return this.mapper.Map<UserForResultDto>(result);
-
         }
 
         public async Task<UserForResultDto> ModifyAsync(UserForResultDto dto)
         {
-
             var updatingUser = await this.repository.SelectAsync(u => u.Id.Equals(dto.Id));
             if (updatingUser is null)
                 throw new CustomException(404, "User not found");
@@ -60,10 +60,23 @@ namespace Bank.Service.Services
             return true;
         }
 
-        public Task<List<UserForResultDto>> SelectAllAsync(
-            PaginationParams @params, Expression<Func<User, bool>> expression = null, string search = null)
+        public async Task<List<UserForResultDto>> SelectAllAsync(
+            PaginationParams @params, Expression<Func<User, bool>> expression = null)
         {
-            throw new NotImplementedException();
+            if (expression is null)
+            {
+                expression = (x => true);
+            }
+
+            var entities = this.repository.SelectAll();
+
+            entities = entities.Where(expression).ToPagedList<User>(@params);
+
+            var filteredUsers = entities.ToList();
+
+            var result = mapper.Map<List<UserForResultDto>>(entities);
+
+            return await Task.FromResult(result);
         }
 
         public async Task<UserForResultDto> SelectAsync(long id)
