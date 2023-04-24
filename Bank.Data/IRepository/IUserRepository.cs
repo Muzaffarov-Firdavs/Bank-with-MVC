@@ -10,5 +10,6 @@ namespace Bank.Data.IRepository
         Task<User> InsertAsync(User user);
         Task<User> UpdateAsync(User user);
         Task Delete(Expression<Func<User, bool>> expression);
+        Task SaveChangesAsync();
     }
 }
