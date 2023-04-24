@@ -1,4 +1,6 @@
-﻿using Bank.Domain.Configuration;
+﻿using AutoMapper;
+using Bank.Data.IRepository;
+using Bank.Domain.Configuration;
 using Bank.Domain.Entites;
 using Bank.Service.DTOs;
 using Bank.Service.Interfaces;
@@ -8,7 +10,13 @@ namespace Bank.Service.Services
 {
     public class UserService : IUserService
     {
-
+        private readonly IMapper mapper;
+        private readonly IUserRepository repository;
+        public UserService(IMapper mapper, IUserRepository repository)
+        {
+            this.mapper = mapper;
+            this.repository = repository;
+        }
 
         public Task<UserForResultDto> AddAsync(UserForCreationDto dto)
         {
