@@ -1,10 +1,27 @@
 using Bank.Data.DbContexts;
+using Bank.Data.IRepository;
+using Bank.Data.Repository;
+using Bank.Service.Interfaces;
+using Bank.Service.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// add dbContext to the conteiner
+builder.Services.AddDbContext<AppDbContext>(options 
+    => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ??
+    throw new InvalidOperationException("Database not found OR connot be accessed"),b => b.MigrationsAssembly("Bank.Web")));
+
+// add repository to the conteiner
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// add services to the conteiner
+builder.Services.AddScoped<IUserService, UserService>();
+
+// add 
 
 
 var app = builder.Build();
