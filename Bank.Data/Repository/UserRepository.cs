@@ -25,29 +25,21 @@ namespace Bank.Data.Repository
             this.dbSet.Remove(entity);
         }
 
-        public Task<User> InsertAsync(User user)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<User> InsertAsync(User user)
+            => (await this.dbSet.AddAsync(user)).Entity;
 
-        public Task SaveChangesAsync()
+        public async Task SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            await this.dbContext.SaveChangesAsync();
         }
 
         public IQueryable<User> SelectAll()
-        {
-            throw new NotImplementedException();
-        }
+             => this.dbSet;
 
-        public Task<User> SelectAsync(Expression<Func<User, bool>> expression = null)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<User> SelectAsync(Expression<Func<User, bool>> expression = null)
+            => await this.dbSet.FirstOrDefaultAsync(expression);
 
-        public Task<User> UpdateAsync(User user)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<User> UpdateAsync(User user)
+            => await Task.FromResult(this.dbSet.Update(user).Entity);
     }
 }
