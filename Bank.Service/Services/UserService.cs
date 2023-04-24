@@ -34,9 +34,18 @@ namespace Bank.Service.Services
 
         }
 
-        public Task<UserForResultDto> ModifyAsync(UserForResultDto dto)
+        public async Task<UserForResultDto> ModifyAsync(UserForResultDto dto)
         {
 
+            var updatingUser = await this.repository.SelectAsync(u => u.Id.Equals(dto.Id));
+            if (updatingUser is null)
+                throw new CustomException(404, "User not found");
+
+            this.mapper.Map(dto,updatingUser);
+            updatingUser.UpdatedAt = DateTime.UtcNow;
+            await this.repository.SaveChangesAsync();
+
+            return  mapper.Map<UserForResultDto>(updatingUser);
         }
 
         public async Task<bool> RemoveAsync(long id)
