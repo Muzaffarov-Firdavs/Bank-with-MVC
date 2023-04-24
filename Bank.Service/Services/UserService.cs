@@ -57,9 +57,14 @@ namespace Bank.Service.Services
             throw new NotImplementedException();
         }
 
-        public Task<UserForResultDto> SelectAsync(long id)
+        public async Task<UserForResultDto> SelectAsync(long id)
         {
-            throw new NotImplementedException();
+            User user = await this.repository.SelectAsync(
+                u => u.Id == id);
+            if (user is not null)
+                throw new CustomException(404, "User not found");
+
+            return mapper.Map<UserForResultDto>(user);
         }
     }
 }
