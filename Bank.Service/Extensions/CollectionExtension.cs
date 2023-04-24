@@ -1,4 +1,6 @@
-﻿namespace Bank.Service.Extensions
+﻿using Bank.Domain.Configuration;
+
+namespace Bank.Service.Extensions
 {
     public static class CollectionExtension
     {
