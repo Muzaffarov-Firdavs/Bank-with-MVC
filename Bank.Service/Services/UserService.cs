@@ -44,6 +44,11 @@ namespace Bank.Service.Services
             var user = await this.repository.SelectAsync(u => u.Id.Equals(id));
             if (user is null)
                 throw new CustomException(404, "User not found");
+
+            await this.repository.Delete(u => u.Id == id);
+            await this.repository.SaveChangesAsync();
+            
+            return true;
         }
 
         public Task<List<UserForResultDto>> SelectAllAsync(
