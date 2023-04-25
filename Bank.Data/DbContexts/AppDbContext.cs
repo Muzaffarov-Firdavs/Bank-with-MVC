@@ -5,13 +5,14 @@ namespace Bank.Data.DbContexts
 {
     public class AppDbContext : DbContext
     {
+        DbSet<User> Users { get; set; }
+
+
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
             Database.Migrate();
         }
 
-
-        DbSet<User> Users { get; set; }
     }
 }
