@@ -10,8 +10,8 @@ namespace Bank.Service.Interfaces
         Task<UserForResultDto> AddAsync(UserForCreationDto dto);
         Task<UserForResultDto> ModifyAsync(UserForResultDto dto);
         Task<bool> RemoveAsync(long id);
-        Task<UserForResultDto> SelectAsync(long id);
-        Task<List<UserForResultDto>> SelectAllAsync(
+        Task<UserForResultDto> RetriewAsync(long id);
+        Task<List<UserForResultDto>> RetriewAllAsync(
             PaginationParams @params, Expression<Func<User, bool>> expression = null);
     }
 }
