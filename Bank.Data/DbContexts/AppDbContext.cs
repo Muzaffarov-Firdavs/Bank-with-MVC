@@ -9,7 +9,6 @@ namespace Bank.Data.DbContexts
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
-            Database.Migrate();
         }
 
 
