@@ -17,9 +17,17 @@ namespace Bank.Data.Repositories
             this.dbContext.Set<TEntity>();
         }
 
-        public Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> expression)
+        public async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> expression)
         {
-            throw new NotImplementedException();
+            var entity = await this.SelectAsync(expression);
+
+            if (entity is not null)
+            {
+                this.dbSet.Remove(entity);
+                return true;
+            }
+
+            return false;
         }
 
         public Task<TEntity> InsertAsync(TEntity entity)
