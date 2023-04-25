@@ -13,7 +13,7 @@ builder.Services.AddControllersWithViews();
 
 // add dbContext to the conteiner
 builder.Services.AddDbContext<AppDbContext>(options
-    => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")),ServiceLifetime.Scoped);
+    => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // add Automapper to the conteiner
 builder.Services.AddAutoMapper(typeof(MapperProfile));

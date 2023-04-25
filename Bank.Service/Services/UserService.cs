@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Bank.Data.IRepository;
-using Bank.Data.Repository;
 using Bank.Domain.Configuration;
 using Bank.Domain.Entites;
 using Bank.Service.DTOs;
