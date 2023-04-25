@@ -15,7 +15,7 @@ builder.Services.AddControllersWithViews();
 // add dbContext to the conteiner
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? throw new InvalidOperationException("Database not found or cannot be accessed"), b => b.MigrationsAssembly("Bank.Mvc")));
+    ?? throw new InvalidOperationException("Database not found or cannot be accessed")));
 
 
 // add repository to the conteiner
