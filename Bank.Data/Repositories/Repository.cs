@@ -41,18 +41,16 @@ namespace Bank.Data.Repositories
         }
 
         public IQueryable<TEntity> SelectAll()
-        {
-            throw new NotImplementedException();
-        }
+            => this.dbSet;
 
-        public Task<TEntity> SelectAsync(Expression<Func<TEntity, bool>> expression)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<TEntity> SelectAsync(Expression<Func<TEntity, bool>> expression)
+        => await this.dbSet.FirstOrDefaultAsync(expression);
 
-        public Task<TEntity> UpdateAsync(TEntity entity)
+        public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            var entry = this.dbSet.Update(entity);
+
+            return await Task.FromResult(entry.Entity);
         }
     }
 }
