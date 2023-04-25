@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Bank.Data.IRepository;
+using Bank.Data.IRepositories;
 using Bank.Domain.Configuration;
 using Bank.Domain.Entites;
 using Bank.Service.DTOs;
@@ -13,8 +13,8 @@ namespace Bank.Service.Services
     public class UserService : IUserService
     {
         private readonly IMapper mapper;
-        private readonly IUserRepository repository;
-        public UserService(IMapper mapper, IUserRepository repository)
+        private readonly IRepository<User> repository;
+        public UserService(IMapper mapper, IRepository<User> repository)
         {
             this.mapper = mapper;
             this.repository = repository;
@@ -30,7 +30,7 @@ namespace Bank.Service.Services
             User mappedUser = mapper.Map<User>(dto);
             mappedUser.CreatedAt = DateTime.UtcNow;
             var result = await this.repository.InsertAsync(mappedUser);
-            await this.repository.SaveChangesAsync();
+            await this.repository.SaveAsync();
             return this.mapper.Map<UserForResultDto>(result);
         }
 
@@ -42,7 +42,7 @@ namespace Bank.Service.Services
 
             this.mapper.Map(dto,updatingUser);
             updatingUser.UpdatedAt = DateTime.UtcNow;
-            await this.repository.SaveChangesAsync();
+            await this.repository.SaveAsync();
 
             return  mapper.Map<UserForResultDto>(updatingUser);
         }
@@ -53,13 +53,13 @@ namespace Bank.Service.Services
             if (user is null)
                 throw new CustomException(404, "User not found");
 
-            await this.repository.Delete(u => u.Id == id);
-            await this.repository.SaveChangesAsync();
+            await this.repository.DeleteAsync(u => u.Id == id);
+            await this.repository.SaveAsync();
             
             return true;
         }
 
-        public async Task<List<UserForResultDto>> SelectAllAsync(
+        public async Task<List<UserForResultDto>> RetriewAllAsync(
             PaginationParams @params, Expression<Func<User, bool>> expression = null)
         {
             if (expression is null)
@@ -78,7 +78,7 @@ namespace Bank.Service.Services
             return await Task.FromResult(result);
         }
 
-        public async Task<UserForResultDto> SelectAsync(long id)
+        public async Task<UserForResultDto> RetriewAsync(long id)
         {
             User user = await this.repository.SelectAsync(
                 u => u.Id == id);

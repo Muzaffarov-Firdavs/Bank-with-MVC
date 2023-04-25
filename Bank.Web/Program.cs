@@ -1,6 +1,7 @@
 using Bank.Data.DbContexts;
-using Bank.Data.IRepository;
-using Bank.Data.Repository;
+using Bank.Data.IRepositories;
+using Bank.Data.Repositories;
+using Bank.Domain.Entites;
 using Bank.Service.Interfaces;
 using Bank.Service.Mappers;
 using Bank.Service.Services;
@@ -15,14 +16,16 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options
     => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// add Automapper to the conteiner
-builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 // add repository to the conteiner
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRepository<User>, Repository<User>>();
 
 // add services to the conteiner
 builder.Services.AddScoped<IUserService, UserService>();
+
+// add Automapper to the conteiner
+builder.Services.AddAutoMapper(typeof(MapperProfile));
+
 
 
 var app = builder.Build();
