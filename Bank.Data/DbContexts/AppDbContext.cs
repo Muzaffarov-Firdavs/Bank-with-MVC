@@ -1,6 +1,5 @@
 ﻿using Bank.Domain.Entites;
 using Microsoft.EntityFrameworkCore;
-using System.IO;
 
 namespace Bank.Data.DbContexts
 {
@@ -9,6 +8,7 @@ namespace Bank.Data.DbContexts
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
+            Database.Migrate();
         }
 
 
