@@ -30,14 +30,14 @@ namespace Bank.Data.Repositories
             return false;
         }
 
-        public Task<TEntity> InsertAsync(TEntity entity)
+        public async Task<TEntity> InsertAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            return (await this.dbSet.AddAsync(entity)).Entity;
         }
 
-        public Task SaveAsync()
+        public async Task SaveAsync()
         {
-            throw new NotImplementedException();
+            await dbContext.SaveChangesAsync();
         }
 
         public IQueryable<TEntity> SelectAll()
